@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        int i = 1;
         binding.bottomNav.add(new MeowBottomNavigation.Model(1, R.drawable.home));
         binding.bottomNav.add(new MeowBottomNavigation.Model(2, R.drawable.baseline_add_circle_outline_24));
         binding.bottomNav.add(new MeowBottomNavigation.Model(3, R.drawable.baseline_person_24));
