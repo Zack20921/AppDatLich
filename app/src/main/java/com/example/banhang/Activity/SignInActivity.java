@@ -10,6 +10,8 @@ import com.example.banhang.databinding.ActivitySignInBinding;
 
 public class SignInActivity extends AppCompatActivity {
     ActivitySignInBinding binding;
+    String username;
+    String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
