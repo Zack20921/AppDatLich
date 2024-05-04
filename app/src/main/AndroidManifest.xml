@@ -16,9 +16,6 @@
             android:name=".Activity.NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.SettingActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activity.HomeActivity"
             android:exported="false" />
         <activity
@@ -37,5 +34,6 @@
             android:name=".Activity.SignUpActivity"
             android:exported="false" />
     </application>
+
 
 </manifest>

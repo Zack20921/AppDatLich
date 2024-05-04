@@ -16,14 +16,12 @@
         android:background="@color/blue2">
 
         <ImageView
-            android:id="@+id/btnSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            app:srcCompat="@drawable/settings"
-            tools:srcCompat="@drawable/settings" />
+            />
 
         <TextView
             android:textColor="@color/white"

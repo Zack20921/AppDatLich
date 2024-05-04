@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.banhang.Database.Database;
 import com.example.banhang.Fragment.FragmentAdd;
 import com.example.banhang.Fragment.FragmentHome;
 import com.example.banhang.Fragment.FragmentMe;
@@ -22,6 +23,9 @@ import kotlin.jvm.functions.Function1;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
+
+
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,8 @@ public class HomeActivity extends AppCompatActivity {
 
         binding.bottomNav.show(1, true);
 
+        database = new Database(this);
+        database.creatData("INSERT INTO note VALUES(null, 'ha','ha',true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
         replace(new FragmentHome());
         binding.bottomNav.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
@@ -56,13 +62,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 return null;
-            }
-        });
-
-        binding.btnSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
             }
         });
 
