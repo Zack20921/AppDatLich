@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+//import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,7 +26,7 @@ public class FragmentHome extends Fragment implements Refresh {
     RecyclerView recyclerView;
     List<ThongBao> thongBaosList;
     private Database database;
-    SwipeRefreshLayout swipeRefreshLayout;
+    //SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

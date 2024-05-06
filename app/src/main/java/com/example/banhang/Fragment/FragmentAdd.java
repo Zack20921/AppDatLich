@@ -1,10 +1,19 @@
 package com.example.banhang.Fragment;
 
+
+
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,6 +28,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.banhang.Activity.HomeActivity;
+import com.example.banhang.Activity.NotificationActivity;
 import com.example.banhang.Database.Database;
 import com.example.banhang.R;
 
@@ -26,12 +36,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class FragmentAdd extends Fragment {
+    private Context mcontext;
     EditText editNote, editTitle;
     Switch switchNote, switchSetNoti;
     boolean notice;
     String dateStart, dateEnd, timeStart, timeEnd;
     Button btnTimeStart, btnTimeEnds,btnDateEnds,btnDateStart, btnSave;
     Calendar calendarDateStart, calendarDateEnd, calendarTimeStart, calendarTimeEnd;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -179,6 +191,7 @@ public class FragmentAdd extends Fragment {
                                     String sql = "INSERT INTO note VALUES(null, '" + title + "','" + note + "',false, '" + start + "', '" + end + "')";
                                     add(sql, database);
                                 } else {
+                                    makeNotification();
                                     if (note.isEmpty()) {
                                         String sql = "INSERT INTO note VALUES(null, '" + title + "',null,true, '" + start + "', '" + end + "')";
                                         add(sql, database);
@@ -217,6 +230,39 @@ public class FragmentAdd extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+    void makeNotification(){
+        String CHANNEL_ID="CHANNEL_ID_NOTIFICATION";
+        mcontext =getContext();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notifications)
+                .setContentTitle("textTitle")
+                .setContentText("textContent")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent intent = new Intent(getActivity().getApplicationContext(), NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("123","123");
+
+        PendingIntent pendingIntent =PendingIntent.getActivity(getActivity().getApplicationContext(), 0,intent,PendingIntent.FLAG_IMMUTABLE);
+
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =(NotificationManager) mcontext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
+
+                if (notificationChannel == null){
+                    int importance= NotificationManager.IMPORTANCE_HIGH;
+                    notificationChannel = new NotificationChannel(CHANNEL_ID,"some description",importance);
+                    notificationChannel.setLightColor(Color.GREEN);
+                    notificationChannel.enableVibration(true);
+                    notificationManager.createNotificationChannel(notificationChannel);
+                }
+        }
+        notificationManager.notify(0,builder.build());
+    }
+
 }
 
 
