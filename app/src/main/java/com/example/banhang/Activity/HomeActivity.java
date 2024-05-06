@@ -39,24 +39,24 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNav.show(1, true);
 
         database = new Database(this);
-        database.creatData("INSERT INTO note VALUES(null, 'ha','ha',true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
-        replace(new FragmentHome());
+//        database.creatData("INSERT INTO note VALUES(null, 'ha','ha',true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
+        replace(new FragmentHome(), "fragHome");
         binding.bottomNav.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
 
                 switch (model.getId()){
                     case 1:
-                        replace(new FragmentHome());
+                        replace(new FragmentHome(), "fragHome");
                         binding.txtTitle.setText("Home");
                         break;
                     case 2:
-                        replace(new FragmentAdd());
+                        replace(new FragmentAdd(), "fragAdd");
                         binding.txtTitle.setText("Add");
                         break;
 
                     case 3:
-                        replace(new FragmentMe());
+                        replace(new FragmentMe(), "fragMe");
                         binding.txtTitle.setText("Me");
                         break;
                 }
@@ -73,9 +73,9 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void replace(Fragment fragment){
+    public void replace(Fragment fragment, String name){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.replace(R.id.frameLayout, fragment, name);
         fragmentTransaction.commit();
 
     }

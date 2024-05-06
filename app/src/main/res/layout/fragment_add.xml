@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FragmentAdd"
     android:layout_gravity="center"
     android:background="@color/white"
     android:orientation="vertical"
-    >
+    tools:context=".Fragment.FragmentAdd">
 
     <ScrollView
-        android:layout_weight="1"
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextText5"
+                android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -204,18 +204,17 @@
                 </LinearLayout>
 
                 <EditText
-                    android:inputType="textMultiLine"
-                    android:visibility="gone"
-                    android:padding="10dp"
-                    android:background="@drawable/background_note"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/editNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"/>
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_note"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -223,11 +222,11 @@
     </ScrollView>
 
     <Button
-        android:layout_marginTop="30dp"
-        android:id="@+id/button5"
+        android:id="@+id/btnSave"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/btn_design"
         android:text="Save"
