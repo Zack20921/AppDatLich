@@ -31,8 +31,7 @@ public class FragmentAdd extends Fragment {
     boolean notice;
     String dateStart, dateEnd, timeStart, timeEnd;
     Button btnTimeStart, btnTimeEnds,btnDateEnds,btnDateStart, btnSave;
-    Calendar calendar1 = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
+    Calendar calendarDateStart, calendarDateEnd, calendarTimeStart, calendarTimeEnd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,6 +40,11 @@ public class FragmentAdd extends Fragment {
         Database database = new Database(getActivity());
         anhxa(view);
         notice = false;
+        calendarDateStart = Calendar.getInstance();
+        calendarDateEnd = Calendar.getInstance();
+        calendarTimeStart = Calendar.getInstance();
+        calendarTimeEnd = Calendar.getInstance();
+
         switchSetNoti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -61,7 +65,6 @@ public class FragmentAdd extends Fragment {
                 }
             }
         });
-
         //setDateStart
          btnDateStart.setOnClickListener(v -> {
              //Tạo biến calendar để lấy ngày tháng năm
@@ -77,7 +80,7 @@ public class FragmentAdd extends Fragment {
                  public void onDateSet(DatePicker view1, int year, int month, int dayOfMonth) {
                      btnDateStart.setText(String.valueOf(dayOfMonth)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
                      dateStart = String.valueOf(dayOfMonth)+"/"+String.valueOf(month)+"/"+String.valueOf(year);
-                     calendar1.set(year, month, dayOfMonth);
+                     calendarDateStart.set(year, month, dayOfMonth);
                  }
              }, year, month,day);
              //Tạo xong rồi thi show ra
@@ -98,7 +101,7 @@ public class FragmentAdd extends Fragment {
                 public void onDateSet(DatePicker view12, int year, int month, int dayOfMonth) {
                     btnDateEnds.setText(String.valueOf(dayOfMonth)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
                     dateEnd = String.valueOf(dayOfMonth)+"/"+String.valueOf(month)+"/"+String.valueOf(year);
-                    calendar2.set(year, month, dayOfMonth);
+                    calendarDateEnd.set(year, month, dayOfMonth);
                 }
             }, year, month,day);
             //Tạo xong rồi thi show ra
@@ -118,6 +121,8 @@ public class FragmentAdd extends Fragment {
                 public void onTimeSet(TimePicker view13, int hourOfDay, int minute) {
                     btnTimeStart.setText(String.valueOf(hourOfDay)+":"+String.valueOf(minute));
                     timeStart= String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+                    calendarTimeStart.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendarTimeStart.set(Calendar.MINUTE, minute);
                 }
             }, hour, minute,true);
 
@@ -138,6 +143,8 @@ public class FragmentAdd extends Fragment {
                 public void onTimeSet(TimePicker view14, int hourOfDay, int minute) {
                     btnTimeEnds.setText(String.valueOf(hourOfDay)+":"+String.valueOf(minute));
                     timeEnd= String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+                    calendarTimeEnd.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendarTimeEnd.set(Calendar.MINUTE, minute);
                 }
             }, hour, minute,true);
 
@@ -156,24 +163,29 @@ public class FragmentAdd extends Fragment {
                 if (timeStart == null || dateStart == null || timeEnd == null || dateEnd == null) {
                     Toast.makeText(getActivity(), "Please select an event time", Toast.LENGTH_SHORT).show();
                 } else {
-                    int comparisonResult = calendar1.compareTo(calendar2);
+                    int comparisonResult = calendarDateStart.compareTo(calendarDateEnd);
+                    int comparisonResultTime = calendarTimeStart.compareTo(calendarTimeEnd);
                     if (comparisonResult > 0) {
                         Toast.makeText(getActivity(), "Start date must be earlier than end date", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (note.isEmpty() && !notice) {
-                            String sql = "INSERT INTO note VALUES(null, '" + title + "', null, false, '" + start + "', '" + end + "')";
-                            add(sql, database);
-                        } else {
-                            if (!notice) {
-                                String sql = "INSERT INTO note VALUES(null, '" + title + "','" + note + "',false, '" + start + "', '" + end + "')";
+                        if(comparisonResult == 0 && comparisonResultTime > 0 || comparisonResultTime == 0){
+                            Toast.makeText(getActivity(), "Start time must be earlier than end time", Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (note.isEmpty() && !notice) {
+                                String sql = "INSERT INTO note VALUES(null, '" + title + "', null, false, '" + start + "', '" + end + "')";
                                 add(sql, database);
                             } else {
-                                if (note.isEmpty()) {
-                                    String sql = "INSERT INTO note VALUES(null, '" + title + "',null,true, '" + start + "', '" + end + "')";
+                                if (!notice) {
+                                    String sql = "INSERT INTO note VALUES(null, '" + title + "','" + note + "',false, '" + start + "', '" + end + "')";
                                     add(sql, database);
                                 } else {
-                                    String sql = "INSERT INTO note VALUES(null, '" + title + "','" + note + "',true , '" + start + "', '" + end + "')";
-                                    add(sql, database);
+                                    if (note.isEmpty()) {
+                                        String sql = "INSERT INTO note VALUES(null, '" + title + "',null,true, '" + start + "', '" + end + "')";
+                                        add(sql, database);
+                                    } else {
+                                        String sql = "INSERT INTO note VALUES(null, '" + title + "','" + note + "',true , '" + start + "', '" + end + "')";
+                                        add(sql, database);
+                                    }
                                 }
                             }
                         }
